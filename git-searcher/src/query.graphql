@@ -1,0 +1,30 @@
+# ファイル単位で最新コミット情報を取得する
+query FileBlame($owner: String!, $repo: String!, $path: String!) {
+  repository(owner: $owner, name: $repo) {
+    name
+    defaultBranchRef {
+      name
+      target {
+        __typename
+        ... on Commit {
+          # 最新 1 件だけ取得
+          history(first: 1, path: $path) {
+            edges {
+              node {
+                oid
+                abbreviatedOid
+                committedDate
+                author {
+                  name
+                  user {
+                    login
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

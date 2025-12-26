@@ -1,0 +1,57 @@
+schema {
+  query: Query
+}
+
+# Query root
+type Query {
+  repository(owner: String!, name: String!): Repository
+}
+
+# リポジトリ型
+type Repository {
+  name: String
+  defaultBranchRef: Ref
+}
+
+# ブランチ参照型
+type Ref {
+  name: String
+  target: GitObject
+}
+
+# GitObject インターフェース
+interface GitObject {
+  __typename: String!
+}
+
+# Commit 型 (GitObject を実装)
+type Commit implements GitObject {
+  __typename: String!
+  # history を定義
+  history(first: Int, path: String): CommitHistoryConnection
+}
+
+# コミット履歴コネクション
+type CommitHistoryConnection {
+  edges: [CommitEdge]
+}
+
+type CommitEdge {
+  node: CommitNode
+}
+
+type CommitNode {
+  oid: String
+  abbreviatedOid: String
+  committedDate: String
+  author: CommitAuthor
+}
+
+type CommitAuthor {
+  name: String
+  user: User
+}
+
+type User {
+  login: String
+}
