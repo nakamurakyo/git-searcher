@@ -72,7 +72,7 @@ git clone <this-repo>
 cd <this-repo>
 cargo build --release
 # ファイル名を引数に実行
-cargo run --release -- slug.yml
+cargo run --release -- test.yml
 ```
 
 ### 5. 実行結果
